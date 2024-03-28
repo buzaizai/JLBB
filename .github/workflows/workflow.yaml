@@ -1,0 +1,39 @@
+name : HDU-Library-Master
+on:
+  schedule:
+    - cron: '25 11 * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+      - name: Check config
+        env:
+          HLMUSERID: ${{ secrets.HLMUSERID }}
+          HLMPASSWORD: ${{ secrets.HLMPASSWORD }}
+          HLMPLANCODE: ${{ secrets.HLMPLANCODE }}
+          HLMMAXTRIALS: ${{ secrets.HLMMAXTRIALS }}
+          HLMDELAY: ${{ secrets.HLMDELAY }}
+          HLMLOGDETAILS: ${{ secrets.HLMLOGDETAILS }}
+          HLMEXECUTETIME: ${{ secrets.HLMEXECUTETIME }}
+          HLMPREEXETIME: ${{ secrets.HLMPREEXETIME }}
+        run:  python main.py
+      - name: Seats reserving
+        env:
+          HLMUSERID: ${{ secrets.HLMUSERID }}
+          HLMPASSWORD: ${{ secrets.HLMPASSWORD }}
+          HLMPLANCODE: ${{ secrets.HLMPLANCODE }}
+          HLMMAXTRIALS: ${{ secrets.HLMMAXTRIALS }}
+          HLMDELAY: ${{ secrets.HLMDELAY }}
+          HLMLOGDETAILS: ${{ secrets.HLMLOGDETAILS }}
+          HLMEXECUTETIME: ${{ secrets.HLMEXECUTETIME }}
+          HLMPREEXETIME: ${{ secrets.HLMPREEXETIME }}
+        run:  python main.py
+        
